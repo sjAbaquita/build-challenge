@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareRoster — Minimal Landing Variation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Inter, sans-serif;
+      background: #ffffff;
+      color: #0f172a;
+    }
+    .section-surface {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+  <header class="sticky top-0 z-50 bg-white border-b border-slate-200">
+    <div class="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-3 text-slate-900 font-semibold">
+        <div class="w-10 h-10 rounded-3xl bg-slate-900 text-white flex items-center justify-center">C</div>
+        CareRoster
+      </a>
+      <nav class="hidden md:flex items-center gap-8 text-sm text-slate-600">
+        <a href="#features" class="hover:text-slate-900">Features</a>
+        <a href="#showcase" class="hover:text-slate-900">Platform</a>
+        <a href="#pricing" class="hover:text-slate-900">Pricing</a>
+        <a href="#faq" class="hover:text-slate-900">FAQ</a>
+      </nav>
+      <a href="#cta" class="hidden md:inline-flex rounded-full bg-slate-900 px-5 py-3 text-white text-sm font-semibold shadow-sm hover:bg-slate-800">Get Started</a>
+      <button id="mobileToggle" class="md:hidden p-2 text-slate-700">Menu</button>
+    </div>
+    <div id="mobileMenu" class="hidden border-t border-slate-200 bg-white px-6 py-4">
+      <a href="#features" class="block py-2 text-slate-700">Features</a>
+      <a href="#showcase" class="block py-2 text-slate-700">Platform</a>
+      <a href="#pricing" class="block py-2 text-slate-700">Pricing</a>
+      <a href="#faq" class="block py-2 text-slate-700">FAQ</a>
+      <a href="#cta" class="mt-3 inline-block rounded-full bg-slate-900 px-5 py-3 text-white font-semibold">Get Started</a>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero" class="py-24">
+      <div class="mx-auto max-w-6xl px-6 grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div class="space-y-8">
+          <p class="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">Hospital staffing made simple</p>
+          <h1 class="text-5xl font-black tracking-tight text-slate-950 sm:text-6xl">Turn chaotic schedules into confident staffing plans.</h1>
+          <p class="max-w-xl text-slate-600 leading-relaxed text-lg">CareRoster gives operations teams the tools they need to automate shift planning, prevent conflicts, and keep staff aligned.</p>
+          <div class="flex flex-col gap-4 sm:flex-row">
+            <a href="#pricing" class="inline-flex items-center justify-center rounded-full bg-slate-900 px-7 py-4 text-white font-semibold">Try Free</a>
+            <a href="#showcase" class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-7 py-4 text-slate-900">See Demo</a>
+          </div>
+        </div>
+        <div class="grid gap-6">
+          <div class="section-surface rounded-[32px] p-8">
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Status</p>
+            <div class="mt-4 text-4xl font-black text-slate-950">96%</div>
+            <p class="mt-2 text-slate-600">Coverage across acute care teams.</p>
+          </div>
+          <div class="section-surface rounded-[32px] p-8">
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Requests</p>
+            <div class="mt-4 text-4xl font-black text-slate-950">12</div>
+            <p class="mt-2 text-slate-600">Pending approvals and swap requests.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="py-20">
+      <div class="mx-auto max-w-6xl px-6 text-center mb-14">
+        <p class="text-slate-500 font-semibold">Features</p>
+        <h2 class="mt-4 text-4xl font-black text-slate-950">Everything your scheduling team needs</h2>
+        <p class="mt-4 text-slate-600 max-w-2xl mx-auto">Powerful shift planning, conflict prevention, and approvals wrapped in a clean operations workflow.</p>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3 px-6">
+        <div class="section-surface rounded-[28px] p-8">
+          <h3 class="text-xl font-semibold text-slate-950">Shift automation</h3>
+          <p class="mt-4 text-slate-600">Create smarter rotations with rules for staff and shift types.</p>
+        </div>
+        <div class="section-surface rounded-[28px] p-8">
+          <h3 class="text-xl font-semibold text-slate-950">Conflict alerts</h3>
+          <p class="mt-4 text-slate-600">Stop overtime, duplicate shifts, and coverage gaps automatically.</p>
+        </div>
+        <div class="section-surface rounded-[28px] p-8">
+          <h3 class="text-xl font-semibold text-slate-950">Team approvals</h3>
+          <p class="mt-4 text-slate-600">Review swap requests and approve changes directly in one place.</p>
+        </div>
+        <div class="section-surface rounded-[28px] p-8">
+          <h3 class="text-xl font-semibold text-slate-950">Department views</h3>
+          <p class="mt-4 text-slate-600">Separate staffing plans for ER, ICU, pediatrics, and outpatient.</p>
+        </div>
+        <div class="section-surface rounded-[28px] p-8">
+          <h3 class="text-xl font-semibold text-slate-950">Reporting</h3>
+          <p class="mt-4 text-slate-600">Export accurate staffing and payroll-ready summaries.</p>
+        </div>
+        <div class="section-surface rounded-[28px] p-8">
+          <h3 class="text-xl font-semibold text-slate-950">Mobile-ready</h3>
+          <p class="mt-4 text-slate-600">Staff can access schedules and updates on any device.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="showcase" class="py-20 bg-slate-50">
+      <div class="mx-auto max-w-6xl px-6 grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div class="space-y-6">
+          <p class="text-slate-500 font-semibold uppercase tracking-[0.2em]">Overview</p>
+          <h2 class="text-4xl font-black text-slate-950">Keep the whole care team aligned with one live view.</h2>
+          <p class="text-slate-600 leading-relaxed">Use a dashboard built to monitor staffing, handle requests, and reduce manual coordination across the hospital.</p>
+        </div>
+        <div class="section-surface rounded-[32px] p-8">
+          <div class="grid gap-4">
+            <div class="rounded-3xl bg-white p-5 border border-slate-200">
+              <div class="text-sm text-slate-500">Active staff</div>
+              <div class="mt-3 text-3xl font-black text-slate-950">248</div>
+            </div>
+            <div class="rounded-3xl bg-white p-5 border border-slate-200">
+              <div class="text-sm text-slate-500">Open conflicts</div>
+              <div class="mt-3 text-3xl font-black text-slate-950">03</div>
+            </div>
+            <div class="rounded-3xl bg-white p-5 border border-slate-200">
+              <div class="text-sm text-slate-500">Pending requests</div>
+              <div class="mt-3 text-3xl font-black text-slate-950">7</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="py-20">
+      <div class="mx-auto max-w-6xl px-6 text-center mb-14">
+        <p class="text-slate-500 font-semibold">Pricing</p>
+        <h2 class="mt-4 text-4xl font-black text-slate-950">Plans for every team size</h2>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-3 px-6">
+        <div class="section-surface rounded-[32px] p-8">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Starter</p>
+          <div class="mt-6 text-5xl font-black text-slate-950">$49</div>
+          <p class="mt-2 text-slate-600">per month</p>
+          <ul class="mt-8 space-y-3 text-slate-600">
+            <li>Up to 25 staff</li>
+            <li>Basic scheduling</li>
+            <li>Email support</li>
+          </ul>
+          <button class="mt-8 w-full rounded-full bg-slate-900 px-6 py-4 text-white font-semibold hover:bg-slate-800">Choose Starter</button>
+        </div>
+        <div class="section-surface rounded-[32px] p-8 border border-slate-200">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Professional</p>
+          <div class="mt-6 text-5xl font-black text-slate-950">$149</div>
+          <p class="mt-2 text-slate-600">per month</p>
+          <ul class="mt-8 space-y-3 text-slate-600">
+            <li>Unlimited scheduling</li>
+            <li>Conflict detection</li>
+            <li>Shift swaps & approvals</li>
+            <li>Advanced analytics</li>
+          </ul>
+          <button class="mt-8 w-full rounded-full bg-slate-900 px-6 py-4 text-white font-semibold hover:bg-slate-800">Start Trial</button>
+        </div>
+        <div class="section-surface rounded-[32px] p-8">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">Enterprise</p>
+          <div class="mt-6 text-5xl font-black text-slate-950">Custom</div>
+          <p class="mt-2 text-slate-600">multi-facility hospitals</p>
+          <ul class="mt-8 space-y-3 text-slate-600">
+            <li>Custom permissions</li>
+            <li>Dedicated onboarding</li>
+            <li>API integrations</li>
+            <li>Priority support</li>
+          </ul>
+          <button class="mt-8 w-full rounded-full border border-slate-300 bg-white px-6 py-4 text-slate-900 font-semibold hover:bg-slate-50">Contact Sales</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="py-20 bg-slate-50">
+      <div class="mx-auto max-w-5xl px-6">
+        <div class="mb-12 text-center">
+          <p class="text-slate-500 font-semibold uppercase tracking-[0.2em]">FAQ</p>
+          <h2 class="mt-4 text-4xl font-black text-slate-950">Quick answers for busy teams</h2>
+        </div>
+        <div class="space-y-4">
+          <details class="section-surface rounded-[28px] p-6">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">How long does onboarding take?</summary>
+            <p class="mt-4 text-slate-600">Most clinics are ready in a few days; larger hospitals usually onboard within 2-3 weeks.</p>
+          </details>
+          <details class="section-surface rounded-[28px] p-6">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">Can staff use mobile scheduling?</summary>
+            <p class="mt-4 text-slate-600">Yes — staff can request shifts, swaps, and approvals from mobile devices.</p>
+          </details>
+          <details class="section-surface rounded-[28px] p-6">
+            <summary class="cursor-pointer text-lg font-semibold text-slate-950">Does this support multiple departments?</summary>
+            <p class="mt-4 text-slate-600">Yes. You can manage ER, ICU, pediatrics, radiology, and outpatient teams separately.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="cta" class="py-24">
+      <div class="mx-auto max-w-5xl px-6 text-center rounded-[36px] bg-slate-900 p-14 text-white shadow-2xl shadow-slate-300/10">
+        <h2 class="text-4xl font-black">Start scheduling with clarity and confidence.</h2>
+        <p class="mt-5 text-slate-300">A clean, powerful platform for healthcare staffing teams that need fast decision-making.</p>
+        <div class="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <a href="#pricing" class="rounded-full bg-white px-8 py-4 text-slate-900 font-semibold">Start Free Trial</a>
+          <a href="#showcase" class="rounded-full border border-slate-200 bg-slate-50 px-8 py-4 text-slate-900">View Demo</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white py-10 text-slate-700">
+    <div class="mx-auto max-w-6xl px-6 grid gap-10 lg:grid-cols-3">
+      <div>
+        <div class="flex items-center gap-3 font-semibold text-slate-900">
+          <div class="w-10 h-10 rounded-3xl bg-slate-900 flex items-center justify-center text-white">C</div>
+          CareRoster
+        </div>
+        <p class="mt-4 text-sm">Staffing software for hospitals and clinical teams that need a better process.</p>
+      </div>
+      <div>
+        <h3 class="mb-4 font-semibold">Links</h3>
+        <nav class="space-y-3 text-sm text-slate-600">
+          <a href="#features" class="block hover:text-slate-900">Features</a>
+          <a href="#pricing" class="block hover:text-slate-900">Pricing</a>
+          <a href="#cta" class="block hover:text-slate-900">Contact</a>
+        </nav>
+      </div>
+      <div>
+        <h3 class="mb-4 font-semibold">Legal</h3>
+        <nav class="space-y-3 text-sm text-slate-600">
+          <a href="#" class="block hover:text-slate-900">Privacy</a>
+          <a href="#" class="block hover:text-slate-900">Terms</a>
+          <a href="#" class="block hover:text-slate-900">Security</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('mobileToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+    toggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  </script>
+</body>
+</html>
