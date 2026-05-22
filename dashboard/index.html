@@ -37,12 +37,14 @@
     .shift-day { cursor: pointer; transition: all .2s ease; }
     .shift-day:hover { transform: translateY(-2px); }
     .shift-badge {
-      padding: 6px 12px;
+      padding: 6px 0px;
       border-radius: 8px;
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+	  width: 100%;
+	  text-align: center;
     }
     .shift-day-shift { background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.3); color: #22d3ee; }
     .shift-night-shift { background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); color: #c4b5fd; }
@@ -78,7 +80,7 @@
       flex-shrink: 0;
     }
     .filter-chip {
-      padding: 6px 14px;
+      padding: 6px 0px;
       border-radius: 20px;
       font-size: 13px;
       cursor: pointer;
@@ -86,6 +88,7 @@
       border: 1px solid rgba(148, 163, 184, 0.2);
       background: rgba(148, 163, 184, 0.08);
       color: #cbd5e1;
+	  width: 5rem;
     }
     .filter-chip:hover {
       border-color: rgba(6, 182, 212, 0.4);
@@ -146,7 +149,7 @@
     </div>
     <div class="flex-1 overflow-auto px-4 py-6">
       <div class="text-xs uppercase tracking-[0.3em] text-slate-500 mb-4 font-semibold">Department</div>
-      <div class="space-y-2 mb-8">
+      <div class="mb-8">
         <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="all">All staff (14)</button>
         <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="er">Emergency (4)</button>
         <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="icu">ICU (3)</button>
@@ -154,16 +157,16 @@
         <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="ortho">Orthopedics (4)</button>
       </div>
       <div class="text-xs uppercase tracking-[0.3em] text-slate-500 mb-4 font-semibold">Quick access</div>
-      <div class="space-y-1">
-        <button class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
+      <div class="">
+        <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
           <div class="w-8 h-8 rounded-lg bg-cyan-500/15 flex items-center justify-center font-bold text-cyan-300 text-xs">MR</div>
           <span>Maria Reyes</span>
         </button>
-        <button class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
+        <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
           <div class="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center font-bold text-purple-300 text-xs">JC</div>
           <span>James Cruz</span>
         </button>
-        <button class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
+        <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
           <div class="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center font-bold text-emerald-300 text-xs">LF</div>
           <span>Lisa Fernandez</span>
         </button>
@@ -196,8 +199,8 @@
     </header>
 
     <!-- Filter bar -->
-    <div class="glass-soft border-b border-slate-800 px-8 py-4 flex items-center gap-3 flex-shrink-0">
-      <span class="text-sm text-slate-400 font-medium">Filter:</span>
+    <div class="glass-soft border-b border-slate-800 px-8 py-4 flex items-center gap-1 flex-shrink-0">
+      <span class="text-sm text-slate-400 font-medium mr-2">Filter:</span>
       <button class="filter-chip active">All shifts</button>
       <button class="filter-chip">Day</button>
       <button class="filter-chip">Night</button>
