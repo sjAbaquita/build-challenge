@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>CareRoster — Weekly Roster</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { color-scheme: dark; }
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(148,163,184,.2) transparent;
+    }
+    *::-webkit-scrollbar { width: 8px; height: 8px; }
+    *::-webkit-scrollbar-thumb {
+      background: rgba(148,163,184,.2);
+      border-radius: 999px;
+    }
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+      color: #e2e8f0;
+      font-family: 'Inter', sans-serif;
+    }
+    body { min-height: 100dvh; }
+    .glass-soft {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      backdrop-filter: blur(12px);
+    }
+    .shift-day { cursor: pointer; transition: all .2s ease; }
+    .shift-day:hover { transform: translateY(-2px); }
+    .shift-badge {
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .shift-day-shift { background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.3); color: #22d3ee; }
+    .shift-night-shift { background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); color: #c4b5fd; }
+    .shift-off { background: rgba(148, 163, 184, 0.1); border: 1px solid rgba(148, 163, 184, 0.2); color: #cbd5e1; }
+    .staff-row {
+      display: grid;
+      grid-template-columns: 160px repeat(7, minmax(120px, 1fr));
+      gap: 1px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.08);
+    }
+    .staff-cell {
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 72px;
+    }
+    .staff-name-cell {
+      padding: 12px;
+      border-right: 1px solid rgba(148, 163, 184, 0.08);
+      justify-content: flex-start;
+      gap: 12px;
+    }
+    .staff-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .filter-chip {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: all .2s ease;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(148, 163, 184, 0.08);
+      color: #cbd5e1;
+    }
+    .filter-chip:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      background: rgba(6, 182, 212, 0.1);
+      color: #22d3ee;
+    }
+    .filter-chip.active {
+      background: rgba(6, 182, 212, 0.2);
+      border-color: rgba(6, 182, 212, 0.5);
+      color: #22d3ee;
+    }
+    .roster-grid-scroll {
+      overflow-x: auto;
+      overflow-y: auto;
+    }
+    .day-header {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 2px solid rgba(6, 182, 212, 0.2);
+      font-size: 13px;
+      font-weight: 600;
+      color: #cbd5e1;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .day-header.today {
+      background: rgba(6, 182, 212, 0.08);
+      color: #22d3ee;
+      border-bottom-color: rgba(6, 182, 212, 0.4);
+    }
+    .panel-header {
+      padding: 24px 20px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .panel-header h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+<div class="min-h-screen flex overflow-hidden">
+  <!-- Sidebar -->
+  <aside class="w-72 glass-soft border-r border-slate-800 flex flex-col">
+    <div class="p-6 border-b border-slate-800">
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-500 flex items-center justify-center text-slate-950 font-bold text-lg shadow-lg shadow-cyan-500/20">C</div>
+        <div>
+          <div class="font-bold tracking-tight">CareRoster</div>
+          <div class="text-xs text-slate-400 mt-1">Roster</div>
+        </div>
+      </div>
+      <button class="w-full h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-semibold text-sm hover:bg-cyan-500/20 transition">+ Add Staff</button>
+    </div>
+    <div class="flex-1 overflow-auto px-4 py-6">
+      <div class="text-xs uppercase tracking-[0.3em] text-slate-500 mb-4 font-semibold">Department</div>
+      <div class="space-y-2 mb-8">
+        <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="all">All staff (14)</button>
+        <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="er">Emergency (4)</button>
+        <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="icu">ICU (3)</button>
+        <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="peds">Pediatrics (3)</button>
+        <button class="w-full text-left px-4 py-2 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition" data-dept="ortho">Orthopedics (4)</button>
+      </div>
+      <div class="text-xs uppercase tracking-[0.3em] text-slate-500 mb-4 font-semibold">Quick access</div>
+      <div class="space-y-1">
+        <button class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-cyan-500/15 flex items-center justify-center font-bold text-cyan-300 text-xs">MR</div>
+          <span>Maria Reyes</span>
+        </button>
+        <button class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-purple-500/15 flex items-center justify-center font-bold text-purple-300 text-xs">JC</div>
+          <span>James Cruz</span>
+        </button>
+        <button class="w-full text-left px-4 py-3 rounded-lg text-sm font-medium text-slate-300 hover:bg-slate-800/50 transition flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/15 flex items-center justify-center font-bold text-emerald-300 text-xs">LF</div>
+          <span>Lisa Fernandez</span>
+        </button>
+      </div>
+    </div>
+    <div class="p-4 border-t border-slate-800">
+      <div class="glass-soft rounded-lg p-4 flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-cyan-500/15 border border-cyan-500/20 flex items-center justify-center font-bold text-cyan-300">AR</div>
+        <div>
+          <div class="font-semibold text-sm">Ariel Ramos</div>
+          <div class="text-xs text-slate-500">Admin</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main content -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <!-- Header -->
+    <header class="glass-soft border-b border-slate-800 px-8 py-4 flex items-center justify-between flex-shrink-0">
+      <div>
+        <h1 class="text-2xl font-bold">Weekly Roster</h1>
+        <p class="text-sm text-slate-400 mt-1">May 20 – May 26, 2026 • 14 staff</p>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="h-10 rounded-lg border border-slate-700 bg-slate-900 px-4 text-sm font-medium text-slate-300 hover:border-cyan-500/40 transition">← Prev week</button>
+        <button class="h-10 rounded-lg border border-slate-700 bg-slate-900 px-4 text-sm font-medium text-slate-300 hover:border-cyan-500/40 transition">Next week →</button>
+        <button class="h-10 rounded-lg bg-cyan-500 text-slate-950 px-5 text-sm font-semibold hover:bg-cyan-400 transition">Export</button>
+      </div>
+    </header>
+
+    <!-- Filter bar -->
+    <div class="glass-soft border-b border-slate-800 px-8 py-4 flex items-center gap-3 flex-shrink-0">
+      <span class="text-sm text-slate-400 font-medium">Filter:</span>
+      <button class="filter-chip active">All shifts</button>
+      <button class="filter-chip">Day</button>
+      <button class="filter-chip">Night</button>
+      <button class="filter-chip">Off</button>
+      <span class="text-slate-700 mx-2">|</span>
+      <button class="filter-chip">ER</button>
+      <button class="filter-chip">ICU</button>
+      <button class="filter-chip">Peds</button>
+    </div>
+
+    <!-- Roster area -->
+    <div class="flex-1 flex overflow-hidden gap-1 bg-slate-950/30 px-1 py-1">
+      <!-- Grid container -->
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <!-- Day headers -->
+        <div class="flex flex-shrink-0 border-b border-slate-800">
+          <div style="width: 160px" class="border-r border-slate-800"></div>
+          <div class="flex-1" style="display: grid; grid-template-columns: repeat(7, minmax(120px, 1fr)); gap: 1px;">
+            <div class="day-header">Mon<br><span class="text-xs font-normal">20</span></div>
+            <div class="day-header">Tue<br><span class="text-xs font-normal">21</span></div>
+            <div class="day-header">Wed<br><span class="text-xs font-normal">22</span></div>
+            <div class="day-header today">Thu<br><span class="text-xs font-normal">23</span></div>
+            <div class="day-header">Fri<br><span class="text-xs font-normal">24</span></div>
+            <div class="day-header">Sat<br><span class="text-xs font-normal">25</span></div>
+            <div class="day-header">Sun<br><span class="text-xs font-normal">26</span></div>
+          </div>
+        </div>
+
+        <!-- Staff rows -->
+        <div class="flex-1 overflow-auto roster-grid-scroll">
+          <!-- Row 1: Maria Reyes -->
+          <div class="staff-row">
+            <div class="staff-cell staff-name-cell">
+              <div class="staff-avatar bg-cyan-500/15 text-cyan-300">MR</div>
+              <div>
+                <div class="font-semibold text-sm">Maria Reyes</div>
+                <div class="text-xs text-slate-500">ER Nurse</div>
+              </div>
+            </div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+          </div>
+
+          <!-- Row 2: James Cruz -->
+          <div class="staff-row">
+            <div class="staff-cell staff-name-cell">
+              <div class="staff-avatar bg-purple-500/15 text-purple-300">JC</div>
+              <div>
+                <div class="font-semibold text-sm">James Cruz</div>
+                <div class="text-xs text-slate-500">ICU Doctor</div>
+              </div>
+            </div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+          </div>
+
+          <!-- Row 3: Lisa Fernandez -->
+          <div class="staff-row">
+            <div class="staff-cell staff-name-cell">
+              <div class="staff-avatar bg-emerald-500/15 text-emerald-300">LF</div>
+              <div>
+                <div class="font-semibold text-sm">Lisa Fernandez</div>
+                <div class="text-xs text-slate-500">Pediatrics</div>
+              </div>
+            </div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+          </div>
+
+          <!-- Row 4: Angela Flores -->
+          <div class="staff-row">
+            <div class="staff-cell staff-name-cell">
+              <div class="staff-avatar bg-rose-500/15 text-rose-300">AF</div>
+              <div>
+                <div class="font-semibold text-sm">Angela Flores</div>
+                <div class="text-xs text-slate-500">Orthopedics</div>
+              </div>
+            </div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+          </div>
+
+          <!-- Row 5: Daniel Kim -->
+          <div class="staff-row">
+            <div class="staff-cell staff-name-cell">
+              <div class="staff-avatar bg-amber-500/15 text-amber-300">DK</div>
+              <div>
+                <div class="font-semibold text-sm">Daniel Kim</div>
+                <div class="text-xs text-slate-500">ICU Nurse</div>
+              </div>
+            </div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+          </div>
+
+          <!-- Row 6-10: More staff -->
+          <div class="staff-row">
+            <div class="staff-cell staff-name-cell">
+              <div class="staff-avatar bg-indigo-500/15 text-indigo-300">SJ</div>
+              <div>
+                <div class="font-semibold text-sm">Sarah Johnson</div>
+                <div class="text-xs text-slate-500">ER Nurse</div>
+              </div>
+            </div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+          </div>
+
+          <div class="staff-row">
+            <div class="staff-cell staff-name-cell">
+              <div class="staff-avatar bg-pink-500/15 text-pink-300">MM</div>
+              <div>
+                <div class="font-semibold text-sm">Michelle Martinez</div>
+                <div class="text-xs text-slate-500">Pediatrics</div>
+              </div>
+            </div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-off">Off</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-day-shift">Day shift</div></div>
+            <div class="staff-cell"><div class="shift-badge shift-night-shift">Night</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right panel: Shift details -->
+      <div class="w-80 glass-soft border-l border-slate-800 flex flex-col">
+        <div class="panel-header">
+          <h2>Shift details</h2>
+          <button class="text-slate-500 hover:text-slate-300 transition text-lg">×</button>
+        </div>
+        <div class="flex-1 overflow-auto p-6 space-y-6">
+          <div>
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold mb-3">Selected</p>
+            <div class="glass-soft rounded-lg p-4">
+              <div class="text-sm text-slate-400">No shift selected</div>
+              <p class="text-xs text-slate-500 mt-2">Click a shift in the roster to view details</p>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-slate-800">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold mb-3">Quick actions</p>
+            <div class="space-y-2">
+              <button class="w-full h-9 rounded-lg border border-slate-700 bg-slate-900/50 text-sm font-medium text-slate-300 hover:border-cyan-500/40 transition">Swap shift</button>
+              <button class="w-full h-9 rounded-lg border border-slate-700 bg-slate-900/50 text-sm font-medium text-slate-300 hover:border-cyan-500/40 transition">Request off</button>
+              <button class="w-full h-9 rounded-lg border border-slate-700 bg-slate-900/50 text-sm font-medium text-slate-300 hover:border-cyan-500/40 transition">Assign shift</button>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-slate-800">
+            <p class="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold mb-3">This week</p>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between items-center text-slate-400">
+                <span>Total shifts</span>
+                <span class="text-slate-200 font-semibold">6</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-400">
+                <span>Hours</span>
+                <span class="text-slate-200 font-semibold">40.5</span>
+              </div>
+              <div class="flex justify-between items-center text-slate-400">
+                <span>Days off</span>
+                <span class="text-slate-200 font-semibold">1</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</body>
+</html>
